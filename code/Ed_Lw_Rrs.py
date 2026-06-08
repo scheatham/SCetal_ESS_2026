@@ -5,25 +5,30 @@ import matplotlib.pyplot as plt
 mpl.rcParams['font.family'] = "Times"
 tfont = {'fontname':'Times'}
 import matplotlib.pylab as pl
+from pathlib import Path
 
-clouds_nadir_Ed = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_clouds_nadirSun/Ed/*_output_file.txt'))
-clear_nadir_Ed = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_nadirSun/Ed/*_output_file.txt'))
+colors = pl.cm.cubehelix(np.linspace(0,1,11))
 
-clouds_50_Ed = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_clouds_50Sun/Ed/*_output_file.txt'))
-clear_50_Ed = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_50Sun/Ed/*_output_file.txt'))
+script_dir = Path(__file__).parent
+base_path = script_dir.parent
 
-clouds_75_Ed = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_clouds_75Sun/Ed/*_output_file.txt'))
-clear_75_Ed = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_75Sun/Ed/*_output_file.txt'))
+clouds_nadir_Ed = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_clouds_nadirSun/Ed/*_output_file.txt')))
+clear_nadir_Ed  = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_nadirSun/Ed/*_output_file.txt')))
 
-clouds_nadir_Lw = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_clouds_nadirSun/Lw/*_output_file.txt'))
-clear_nadir_Lw = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_nadirSun/Lw/*_output_file.txt'))
+clouds_50_Ed = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_clouds_50Sun/Ed/*_output_file.txt')))
+clear_50_Ed  = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_50Sun/Ed/*_output_file.txt')))
 
-clouds_50_Lw = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_clouds_50Sun/Lw/*_output_file.txt'))
-clear_50_Lw = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_50Sun/Lw/*_output_file.txt'))
+clouds_75_Ed = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_clouds_75Sun/Ed/*_output_file.txt')))
+clear_75_Ed  = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_75Sun/Ed/*_output_file.txt')))
 
-clouds_75_Lw = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_clouds_75Sun/Lw/*_output_file.txt'))
-clear_75_Lw = sorted(glob.glob(r'/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/BOA_75Sun/Lw/*_output_file.txt'))
+clouds_nadir_Lw = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_clouds_nadirSun/Lw/*_output_file.txt')))
+clear_nadir_Lw  = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_nadirSun/Lw/*_output_file.txt')))
 
+clouds_50_Lw = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_clouds_50Sun/Lw/*_output_file.txt')))
+clear_50_Lw  = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_50Sun/Lw/*_output_file.txt')))
+
+clouds_75_Lw = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_clouds_75Sun/Lw/*_output_file.txt')))
+clear_75_Lw  = sorted(glob.glob(str(base_path / 'ContrastingSamples_config_outputs/BOA_75Sun/Lw/*_output_file.txt')))
 lambdas = [400, 413, 443, 482, 483, 490, 510, 560,561, 620, 665, 670, 674, 681, 704, 705, 709, 754, 780] #for updated chl algorithms
 
 def get_flick_output(input_files):
@@ -57,7 +62,7 @@ def extract_solar_irradiance(filepath, lambdas):
                     solar_irradiance.append(float(p[1]))
     return solar_irradiance
 
-solar_irradiance = extract_solar_irradiance("/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/ContrastingSamples_config_outputs/getSpecRef/spectral_solar_constant.txt",lambdas)
+solar_irradiance = extract_solar_irradiance(base_path /"ContrastingSamples_config_outputs/getSpecRef/spectral_solar_constant.txt",lambdas)
 
 nadir_clouds_flick_output = get_flick_output(clouds_nadir_Ed)
 nadir_clear_flick_output = get_flick_output(clear_nadir_Ed)
@@ -218,7 +223,7 @@ ax[0].legend([line1, line2, line4, line3],
              ['Gaupnefjord', 'Hardangerfjord', 'Beaufort Sea', 'Coastal San Diego'],
              loc="lower left", fontsize="medium")
 
-fig.savefig("/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/Figures/BOA_Ed_50Sun.pdf",bbox_inches="tight",dpi=600)
+#fig.savefig(base_path / "Figures/BOA_Ed_50Sun.pdf",bbox_inches="tight",dpi=600)
 
 
 # axs[2].grid(which='major', alpha=0.4)
@@ -404,5 +409,5 @@ fontsize=16, verticalalignment='top',
 bbox=dict(facecolor='1', edgecolor='none', pad=3.0))
 axs2[2,2].tick_params(axis='both', which='major', labelsize=14)
 
-fig2.savefig("/Users/sheacheatham/Documents/GitHub/FlickTests/SensitivityAnalyses/ContrastingSamples/Figures/BOA_Ed_Lw_Rrs_Differences.pdf",bbox_inches="tight",dpi=600)
+#fig2.savefig(base_path / "Figures/BOA_Ed_Lw_Rrs_Differences.pdf",bbox_inches="tight",dpi=600)
 
